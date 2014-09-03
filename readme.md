@@ -46,7 +46,7 @@ store.exists({ key: 'somefile.txt' }, function(err, exists){
 
 `options` must be an object that has the following properties:
 
-`client`: the `require('aws-sdk')`
+`client`: an `require('aws-sdk').S3` instance
 `bucket`: your bucket
 
 ### s3.createWriteStream(options, cb)
