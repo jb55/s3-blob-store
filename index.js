@@ -24,7 +24,12 @@ function S3BlobStore(opts) {
 
 S3BlobStore.prototype.createReadStream = function(opts) {
   var config = { client: this.s3, params: this.downloadParams(opts) };
-  return downloader(config)
+  var stream = downloader(config);
+  // not sure if this a test bug or if I should be doing this in
+  // s3-download-stream...
+  stream.read(0);
+  return stream;
+
 }
 
 
@@ -77,7 +82,10 @@ S3BlobStore.prototype.remove = function(opts, done) {
   return this;
 }
 
-S3BlobStore.prototype.exists = function(done) {
+S3BlobStore.prototype.exists = function(opts, done) {
+  this.s3.headObject({ Bucket: this.bucket, Key: opts.key }, function(err, res){
+    done(null, !err)
+  });
 }
 
 module.exports = S3BlobStore;
