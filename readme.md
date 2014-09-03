@@ -21,7 +21,7 @@ var client = new aws.S3({
 })
 
 var store = s3blobs({
-  client: cient,
+  client: client,
   bucket: 'mybucket'
 });
 
