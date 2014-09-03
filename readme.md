@@ -1,7 +1,7 @@
 
 # s3-blob-store
 
-  Amazon S3 [abstract-blob-store](https://npmrepo.com/abstract-blob-store)
+  Amazon S3 [abstract-blob-store](http://npmrepo.com/abstract-blob-store)
 
 ## Installation
 
