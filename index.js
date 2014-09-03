@@ -3,23 +3,17 @@ var Uploader = require('s3-upload-stream').Uploader;
 var downloader = require('s3-download-stream');
 var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
-var aws = require('aws-sdk');
 var through = require('through2');
 
 function S3BlobStore(opts) {
   if (!(this instanceof S3BlobStore)) return new S3BlobStore(opts);
   opts = opts || {};
-  if (!opts.accessKey) throw Error("S3BlobStore accessKey option required");
-  if (!opts.secretKey) throw Error("S3BlobStore secretKey option required");
+  if (!opts.client) throw Error("S3BlobStore client option required (aws-sdk AWS.S3 instance)");
   if (!opts.bucket) throw Error("S3BlobStore bucket option required");
   this.accessKey = opts.accessKey;
   this.secretKey = opts.secretKey;
   this.bucket = opts.bucket;
-  this.s3 = new (opts.aws || aws).S3({
-    apiVersion: "2006-03-01",
-    secretAccessKey: opts.secretKey,
-    accessKeyId: opts.accessKey
-  });
+  this.s3 = opts.client;
 }
 
 S3BlobStore.prototype.createReadStream = function(opts) {
@@ -29,7 +23,6 @@ S3BlobStore.prototype.createReadStream = function(opts) {
   // s3-download-stream...
   stream.read(0);
   return stream;
-
 }
 
 
@@ -84,7 +77,8 @@ S3BlobStore.prototype.remove = function(opts, done) {
 
 S3BlobStore.prototype.exists = function(opts, done) {
   this.s3.headObject({ Bucket: this.bucket, Key: opts.key }, function(err, res){
-    done(null, !err)
+    if (err && err.statusCode === 404) return done(null, false);
+    done(err, !err)
   });
 }
 
