@@ -59,6 +59,10 @@ S3BlobStore.prototype.createWriteStream = function(opts, done) {
     proxy.pipe(stream);
     proxy.resume()
 
+    // for upload progress
+    stream.on('chunk', function(data){
+      proxy.emit('chunk', data);
+    });
     stream.on('error', done);
     stream.on('uploaded', function(res){
       debug('uploaded %j', res);
