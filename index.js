@@ -53,8 +53,11 @@ S3BlobStore.prototype.createWriteStream = function(opts, done) {
   proxy.pause();
 
   new Uploader({ s3Client: this.s3 }, params, function(err, stream){
-    debug('got err %j', err);
-    if (err) return done(err);
+    if (err) {
+      debug('got err %j', err);
+      proxy.emit('error', err)
+      return done && done(err)
+    }
 
     proxy.pipe(stream);
     proxy.resume()
@@ -63,10 +66,10 @@ S3BlobStore.prototype.createWriteStream = function(opts, done) {
     stream.on('chunk', function(data){
       proxy.emit('chunk', data);
     });
-    stream.on('error', done);
+    done && stream.on('error', done);
     stream.on('uploaded', function(res){
       debug('uploaded %j', res);
-      done(null, { key: params.Key })
+      done && done(null, { key: params.Key })
     });
 
   });
