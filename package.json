@@ -7,7 +7,7 @@
     "s3",
     "blob"
   ],
-  "version": "0.0.3",
+  "version": "0.0.4",
   "repository": {
     "type": "git",
     "url": "git://github.com/jb55/s3-blob-store.git"
