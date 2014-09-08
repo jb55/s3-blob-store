@@ -3,6 +3,8 @@
 
   Amazon S3 [abstract-blob-store](http://npmrepo.com/abstract-blob-store)
 
+  [![Build Status](https://travis-ci.org/jb55/s3-blob-store.svg)](https://travis-ci.org/jb55/s3-blob-store)
+
 ## Installation
 
   Install with npm
