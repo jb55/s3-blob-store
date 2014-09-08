@@ -10,12 +10,13 @@ var client = new aws.S3({
   secretAccessKey: process.env.S3_SECRET_KEY
 })
 
+var store = s3({
+  client: client,
+  bucket: process.env.S3_BUCKET
+})
+
 var common = {
   setup: function(t, cb) {
-    var store = s3({
-      client: client,
-      bucket: process.env.S3_BUCKET
-    })
     cb(null, store)
   },
   teardown: function(t, store, blob, cb) {
@@ -25,3 +26,18 @@ var common = {
 }
 
 blobTests(test, common);
+
+test('works without callback', function(t){
+  t.plan(1);
+  var writer = store.createWriteStream({ key: 'test5.txt' });
+  writer.push("abc");
+  writer.push(null);
+
+  writer.on('error', function(ee){
+    t.error(e)
+  });
+
+  writer.on('end', function(){
+    t.ok(true);
+  });
+});
