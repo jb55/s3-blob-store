@@ -27,12 +27,14 @@ S3BlobStore.prototype.createReadStream = function(opts) {
 
 
 S3BlobStore.prototype.uploadParams = function(opts) {
+  opts = opts || {};
+
+  var params = opts.params || {};
   var filename = opts.name || opts.filename;
   var key = opts.key || filename;
 
-  var params = {};
-  params.Bucket = this.bucket;
-  params.Key = key;
+  params.Bucket = params.Bucket || this.bucket;
+  params.Key = params.Key || key;
 
   var contentType = filename? mime.lookup(filename) : mime.lookup(opts.key)
   if (contentType) params.ContentType = contentType;

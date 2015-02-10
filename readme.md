@@ -53,17 +53,22 @@ store.exists({ key: 'somefile.txt' }, function(err, exists){
 `client`: an `require('aws-sdk').S3` instance
 `bucket`: your bucket
 
-### s3.createWriteStream(options, cb)
+### s3.createWriteStream(opts, cb)
 
 returns a writable stream that you can pipe data to. 
 
-`options` should be an object that has options `key` (will be the filename in your bucket)
+`opts` should be an object that has options `key` (will be the filename in
+your bucket)
+
+`opts.params` additional [parameters](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property) to pass to S3
 
 `cb` will be called with `(err)` if there is was an error
 
 ### s3.createReadStream(opts)
 
 opts should be `{key: string (usually a hash or path + filename}`
+
+`opts.params` additional [parameters](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property) to pass to S3
 
 returns a readable stream of data for the file in your bucket whose key matches
 
