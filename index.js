@@ -32,11 +32,14 @@ S3BlobStore.prototype.uploadParams = function(opts) {
   var params = opts.params || {};
   var filename = opts.name || opts.filename;
   var key = opts.key || filename;
+  var contentType = opts.contentType;
 
   params.Bucket = params.Bucket || this.bucket;
   params.Key = params.Key || key;
 
-  var contentType = filename? mime.lookup(filename) : mime.lookup(opts.key)
+  if (!contentType) {
+    contentType = filename? mime.lookup(filename) : mime.lookup(opts.key)
+  }
   if (contentType) params.ContentType = contentType;
 
   return params;
