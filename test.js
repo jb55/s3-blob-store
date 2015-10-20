@@ -41,3 +41,12 @@ test('works without callback', function(t){
     t.ok(true);
   });
 });
+
+test('should emit error event when key does not exist', function(t){
+  t.plan(1);
+  var readStream = store.createReadStream({ key: 'nonexistingkey' });
+  readStream.on('error', function(err){
+    t.equal(err.code, 'NoSuchKey');
+  });
+});
+
