@@ -37,6 +37,13 @@ fs.createReadStream('/tmp/somefile.txt')
 
 // read from s3
 var readStream = store.createReadStream({ key: 'somefile.txt' });
+/*
+For range requests:
+var readStream = store.createReadStream({
+  key: 'somefile.txt',
+  range: { start: 20, end: 40 }
+});
+*/
 
 readStream.on('error', function(err){
   if (err.code === 'NoSuchKey') {
