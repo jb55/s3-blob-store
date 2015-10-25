@@ -1,6 +1,5 @@
 
 var Uploader = require('s3-upload-stream').Uploader;
-var downloader = require('s3-download-stream');
 var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
 var through = require('through2');
@@ -17,12 +16,12 @@ function S3BlobStore(opts) {
 }
 
 S3BlobStore.prototype.createReadStream = function(opts) {
-  var config = { client: this.s3, params: this.downloadParams(opts) };
-  var stream = downloader(config);
-  // not sure if this a test bug or if I should be doing this in
-  // s3-download-stream...
-  stream.read(0);
-  return stream;
+  var params = this.downloadParams(opts);
+  var s3 = this.s3;
+  if (opts.range) {
+    params.Range = 'bytes=' + opts.range.start + '-' + opts.range.end;
+  }
+  return s3.getObject(params).createReadStream();
 }
 
 

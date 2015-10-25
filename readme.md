@@ -36,8 +36,23 @@ fs.createReadStream('/tmp/somefile.txt')
 
 
 // read from s3
-store.createReadStream({ key: 'somefile.txt' })
-  .pipe(fs.createWriteStream('/tmp/somefile.txt'))
+var readStream = store.createReadStream({ key: 'somefile.txt' });
+/*
+For range requests:
+var readStream = store.createReadStream({
+  key: 'somefile.txt',
+  range: { start: 20, end: 40 }
+});
+*/
+
+readStream.on('error', function(err){
+  if (err.code === 'NoSuchKey') {
+    console.error('key does not exist');
+  }
+});
+
+readStream.pipe(fs.createWriteStream('/tmp/somefile.txt'))
+
 
 // exists
 store.exists({ key: 'somefile.txt' }, function(err, exists){
@@ -55,7 +70,7 @@ store.exists({ key: 'somefile.txt' }, function(err, exists){
 
 ### s3.createWriteStream(opts, cb)
 
-returns a writable stream that you can pipe data to. 
+returns a writable stream that you can pipe data to.
 
 `opts` should be an object that has options `key` (will be the filename in
 your bucket)
