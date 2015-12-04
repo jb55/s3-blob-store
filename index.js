@@ -1,5 +1,4 @@
 
-var Uploader = require('s3-upload-stream').Uploader;
 var downloader = require('s3-download-stream');
 var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
@@ -57,28 +56,19 @@ S3BlobStore.prototype.createWriteStream = function(opts, done) {
   var proxy = through();
   proxy.pause();
 
-  new Uploader({ s3Client: this.s3 }, params, function(err, stream){
+  params.Body = proxy;
+  var options = {};
+  // var options = {partSize: 10 * 1024 * 1024, queueSize: 1};
+  this.s3.upload(params, options, function(err, data) {
     if (err) {
       debug('got err %j', err);
       proxy.emit('error', err)
       return done && done(err)
     }
 
-    proxy.pipe(stream);
-    proxy.resume()
-
-    // for upload progress
-    stream.on('chunk', function(data){
-      proxy.emit('chunk', data);
-    });
-    done && stream.on('error', done);
-    stream.on('uploaded', function(res){
-      debug('uploaded %j', res);
-      done && done(null, { key: params.Key })
-    });
-
+    debug('uploaded %j', data);
+    done && done(null, { key: params.Key })
   });
-
   return proxy;
 }
 

@@ -20,7 +20,6 @@
     "debug": "^2.0.0",
     "mime-types": "^2.0.0",
     "s3-download-stream": "0.0.5",
-    "s3-upload-stream": "^0.6.2",
     "through2": "^0.6.1"
   },
   "devDependencies": {
