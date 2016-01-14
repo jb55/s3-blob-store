@@ -3,6 +3,7 @@ var downloader = require('s3-download-stream');
 var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
 var through = require('through2');
+var path = require('path');
 
 function S3BlobStore(opts) {
   if (!(this instanceof S3BlobStore)) return new S3BlobStore(opts);
@@ -83,5 +84,28 @@ S3BlobStore.prototype.exists = function(opts, done) {
     done(err, !err)
   });
 }
+
+S3BlobStore.prototype.move = function(from, to, done) {
+  var self = this;
+  var fromBucket = from.bucket || self.bucket;
+  var toBucket = to.bucket || self.bucket;
+
+  var copyParams = {
+    Bucket: toBucket,
+    CopySource: path.join(fromBucket, from.key), /* AWS requires bucket in the CopySource */
+    Key: to.key
+  };
+
+  self.s3.waitFor('objectExists', { Bucket: fromBucket, Key: from.key }, function (err, data) {
+    if (err) { return done(err); }
+    /* TODO: consider using consistency info from data for the copy? */
+    self.s3.copyObject(copyParams, function (err, cres) {
+      if (err) { return done(err); }
+      self.s3.deleteObject({Bucket: fromBucket, Key: from.key}, function (err) {
+        done(err, cres);
+      });
+    });
+  });
+};
 
 module.exports = S3BlobStore;
