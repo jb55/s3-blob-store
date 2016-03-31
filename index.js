@@ -51,15 +51,18 @@ S3BlobStore.prototype.downloadParams = function(opts) {
 }
 
 
-S3BlobStore.prototype.createWriteStream = function(opts, done) {
+S3BlobStore.prototype.createWriteStream = function(opts, s3opts, done) {
+  if (typeof(s3opts) === 'function') {
+    done = s3opts;
+    s3opts = {};
+  }
   var params = this.uploadParams(opts)
   var proxy = through();
   proxy.pause();
 
   params.Body = proxy;
-  var options = {};
-  // var options = {partSize: 10 * 1024 * 1024, queueSize: 1};
-  this.s3.upload(params, options, function(err, data) {
+  // var s3opts = {partSize: 10 * 1024 * 1024, queueSize: 1};
+  this.s3.upload(params, s3opts, function(err, data) {
     if (err) {
       debug('got err %j', err);
       proxy.emit('error', err)
