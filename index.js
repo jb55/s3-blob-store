@@ -16,6 +16,7 @@ function S3BlobStore(opts) {
 }
 
 S3BlobStore.prototype.createReadStream = function(opts) {
+  if (typeof opts === 'string') opts = {key: opts}
   var config = { client: this.s3, params: this.downloadParams(opts) };
   var stream = downloader(config);
   // not sure if this a test bug or if I should be doing this in
@@ -56,6 +57,7 @@ S3BlobStore.prototype.createWriteStream = function(opts, s3opts, done) {
     done = s3opts;
     s3opts = {};
   }
+  if (typeof opts === 'string') opts = {key: opts}
   var params = this.uploadParams(opts)
   var proxy = through();
   proxy.pause();
@@ -81,6 +83,7 @@ S3BlobStore.prototype.remove = function(opts, done) {
 }
 
 S3BlobStore.prototype.exists = function(opts, done) {
+  if (typeof opts === 'string') opts = {key: opts}
   this.s3.headObject({ Bucket: this.bucket, Key: opts.key }, function(err, res){
     if (err && err.statusCode === 404) return done(null, false);
     done(err, !err)
