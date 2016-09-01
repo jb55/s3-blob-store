@@ -74,8 +74,10 @@ S3BlobStore.prototype.createWriteStream = function(opts, s3opts, done) {
   this.s3.upload(params, s3opts, function(err, data) {
     if (err) {
       debug('got err %j', err);
+      if (done) {
+        return done(err)
+      }
       proxy.emit('error', err)
-      return done && done(err)
     }
 
     debug('uploaded %j', data);
