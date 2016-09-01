@@ -17,6 +17,7 @@ function S3BlobStore(opts) {
 
 S3BlobStore.prototype.createReadStream = function(opts) {
   if (typeof opts === 'string') opts = {key: opts}
+  if (opts.range) return this.createRangeReadStream(opts);
   var config = { client: this.s3, params: this.downloadParams(opts) };
   var stream = downloader(config);
   // not sure if this a test bug or if I should be doing this in
@@ -25,6 +26,12 @@ S3BlobStore.prototype.createReadStream = function(opts) {
   return stream;
 }
 
+S3BlobStore.prototype.createRangeReadStream = function(opts) {
+  // Use regulare s3 download instead of s3-download-stream for range downloads
+  var params = this.downloadParams(opts);
+  params.Range = 'bytes=' + opts.range.start + '-' + opts.range.end;
+  return this.s3.getObject(params).createReadStream();
+}
 
 S3BlobStore.prototype.uploadParams = function(opts) {
   opts = opts || {};
