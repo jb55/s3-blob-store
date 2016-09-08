@@ -78,7 +78,8 @@ S3BlobStore.prototype.createWriteStream = function(opts, s3opts, done) {
 }
 
 S3BlobStore.prototype.remove = function(opts, done) {
-  this.s3.deleteObject({ Bucket: this.bucket, Key: opts.key }, done)
+  const key = typeof opts === 'string' ? opts : opts.key
+  this.s3.deleteObject({ Bucket: this.bucket, Key: key }, done)
   return this;
 }
 
