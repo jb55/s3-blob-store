@@ -30,14 +30,14 @@ blobTests(test, common);
 test('works without callback', function(t){
   t.plan(1);
   var writer = store.createWriteStream({ key: 'test5.txt' });
-  writer.push("abc");
-  writer.push(null);
+  writer.write("abc");
+  writer.end();
 
   writer.on('error', function(ee){
     t.error(e)
   });
 
-  writer.on('end', function(){
+  writer.on('finish', function(){
     t.ok(true);
   });
 });
