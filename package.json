@@ -8,6 +8,7 @@
     "blob"
   ],
   "version": "2.0.1",
+  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/jb55/s3-blob-store.git"
