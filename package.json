@@ -23,7 +23,7 @@
     "s3-stream-upload": "^2.0.1"
   },
   "devDependencies": {
-    "abstract-blob-store": "^2.1.0",
+    "abstract-blob-store": "^3.3.2",
     "aws-sdk": "^2.0.15",
     "tape": "^2.14.0"
   }
