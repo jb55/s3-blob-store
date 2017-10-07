@@ -17,7 +17,7 @@
     "test": "node test.js"
   },
   "dependencies": {
-    "debug": "^2.0.0",
+    "debug": "^3.1.0",
     "mime-types": "^2.0.0",
     "s3-download-stream": "0.0.5",
     "s3-stream-upload": "^2.0.1"
@@ -25,6 +25,6 @@
   "devDependencies": {
     "abstract-blob-store": "^3.3.2",
     "aws-sdk": "^2.0.15",
-    "tape": "^2.14.0"
+    "tape": "^4.8.0"
   }
 }
