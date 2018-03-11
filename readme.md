@@ -55,7 +55,7 @@ store.exists({ key: 'somefile.txt' }, function(err, exists){
 
 ### s3.createWriteStream(opts, cb)
 
-returns a writable stream that you can pipe data to. 
+returns a writable stream that you can pipe data to.
 
 `opts` should be an object that has options `key` (will be the filename in
 your bucket)
@@ -69,6 +69,8 @@ your bucket)
 opts should be `{key: string (usually a hash or path + filename}`
 
 `opts.params` additional [parameters](http://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property) to pass to S3
+`opts.concurrency` optional parameter for [s3-download-stream](https://github.com/jb55/s3-download-stream)
+`opts.chunkSize` optional parameter for [s3-download-stream](https://github.com/jb55/s3-download-stream)
 
 returns a readable stream of data for the file in your bucket whose key matches
 

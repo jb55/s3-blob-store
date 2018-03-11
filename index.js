@@ -18,6 +18,8 @@ function S3BlobStore(opts) {
 S3BlobStore.prototype.createReadStream = function(opts) {
   if (typeof opts === 'string') opts = {key: opts}
   var config = { client: this.s3, params: this.downloadParams(opts) };
+  if (opts.concurrency) config.concurrency = opts.concurrency;
+  if (opts.chunkSize) config.chunkSize = opts.chunkSize;
   var stream = downloader(config);
   // not sure if this a test bug or if I should be doing this in
   // s3-download-stream...
