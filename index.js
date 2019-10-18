@@ -29,7 +29,7 @@ S3BlobStore.prototype.createReadStream = function(opts) {
 
 
 S3BlobStore.prototype.uploadParams = function(opts) {
-  opts = opts || {};
+  opts = Object.assign({}, opts) || {};
 
   var params = opts.params || {};
   var filename = opts.name || opts.filename;
