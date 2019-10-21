@@ -19,6 +19,7 @@
   },
   "dependencies": {
     "debug": "^3.1.0",
+    "lodash.clonedeep": "^4.5.0",
     "mime-types": "^2.0.0",
     "s3-download-stream": "1.1.1",
     "s3-stream-upload": "^2.0.1"
