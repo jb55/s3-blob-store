@@ -3,6 +3,7 @@ var downloader = require('s3-download-stream');
 var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
 var uploadStream = require('s3-stream-upload');
+var clone = require('./utils/object');
 
 function S3BlobStore(opts) {
   if (!(this instanceof S3BlobStore)) return new S3BlobStore(opts);
@@ -29,7 +30,7 @@ S3BlobStore.prototype.createReadStream = function(opts) {
 
 
 S3BlobStore.prototype.uploadParams = function(opts) {
-  opts = Object.assign({}, opts) || {};
+  opts = opts ? clone(opts) : {};
 
   var params = opts.params || {};
   var filename = opts.name || opts.filename;
