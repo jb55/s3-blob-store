@@ -22,7 +22,7 @@
     "test": "node test.js | tap-spec"
   },
   "dependencies": {
-    "debug": "^3.1.0",
+    "debug": "^4.1.1",
     "mime-types": "^2.0.0",
     "s3-download-stream": "1.1.1",
     "s3-stream-upload": "^2.0.1"
