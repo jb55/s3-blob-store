@@ -18,7 +18,8 @@
     "index.js"
   ],
   "scripts": {
-    "test": "node test.js"
+    "lint": "eslint . --ext .js",
+    "test": "node test.js | tap-spec"
   },
   "dependencies": {
     "debug": "^3.1.0",
@@ -30,6 +31,13 @@
   "devDependencies": {
     "abstract-blob-store": "^3.3.2",
     "aws-sdk": "^2.0.15",
-    "tape": "^4.8.0"
+    "eslint": "^6.8.0",
+    "eslint-config-semistandard": "^15.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "tape": "^4.8.0",
   }
 }
