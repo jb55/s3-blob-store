@@ -1,12 +1,7 @@
-# s3-blob-store
+# s3-blob-store [![build status](https://badgen.net/travis/jb55/s3-blob-store/master)](https://travis-ci.com/jb55/s3-blob-store) [![install size](https://badgen.net/packagephobia/install/s3-blob-store)](https://packagephobia.now.sh/result?p=s3-blob-store) [![npm package version](https://badgen.net/npm/v/s3-blob-store)](https://npm.im/s3-blob-store) [![github license](https://badgen.net/github/license/jb55/s3-blob-store)](https://github.com/jb55/s3-blob-store/blob/master/LICENSE) [![js semistandard style](https://badgen.net/badge/code%20style/semistandard/pink)](https://github.com/Flet/semistandard)
 
 Amazon S3 [abstract-blob-store](http://npmrepo.com/abstract-blob-store)
 
-[![build status](https://badgen.net/travis/jb55/s3-blob-store/master)](https://travis-ci.com/jb55/s3-blob-store)
-[![install size](https://badgen.net/packagephobia/install/s3-blob-store)](https://packagephobia.now.sh/result?p=s3-blob-store)
-[![npm package version](https://badgen.net/npm/v/s3-blob-store)](https://npm.im/s3-blob-store)
-[![github license](https://badgen.net/github/license/jb55/s3-blob-store)](https://github.com/jb55/s3-blob-store/blob/master/LICENSE)
-[![js semistandard style](https://badgen.net/badge/code%20style/semistandard/pink)](https://github.com/Flet/semistandard)
 
 [![blob-store-compatible](https://raw.githubusercontent.com/maxogden/abstract-blob-store/master/badge.png)](https://github.com/maxogden/abstract-blob-store)
 
