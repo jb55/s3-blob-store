@@ -38,6 +38,9 @@
     "eslint-plugin-node": "^11.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
+    "s3rver": "^3.5.0",
+    "tap-spec": "^5.0.0",
     "tape": "^4.8.0",
+    "tmp": "^0.1.0"
   }
 }
