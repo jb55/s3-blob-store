@@ -1,5 +1,6 @@
 {
   "name": "s3-blob-store",
+  "version": "4.1.0",
   "description": "s3 abstract-blob-store",
   "keywords": [
     "abstract-blob-store",
@@ -7,13 +8,15 @@
     "s3",
     "blob"
   ],
-  "version": "4.1.0",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/jb55/s3-blob-store.git"
   },
+  "license": "MIT",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "test": "node test.js"
   },
