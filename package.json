@@ -1,5 +1,6 @@
 {
   "name": "s3-blob-store",
+  "version": "4.1.0",
   "description": "s3 abstract-blob-store",
   "keywords": [
     "abstract-blob-store",
@@ -7,19 +8,21 @@
     "s3",
     "blob"
   ],
-  "version": "4.1.0",
-  "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git://github.com/jb55/s3-blob-store.git"
   },
+  "license": "MIT",
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
-    "test": "node test.js"
+    "lint": "eslint . --ext .js",
+    "test": "node test.js | tap-spec"
   },
   "dependencies": {
-    "debug": "^3.1.0",
-    "lodash.clonedeep": "^4.5.0",
+    "debug": "^4.1.1",
     "mime-types": "^2.0.0",
     "s3-download-stream": "1.1.1",
     "s3-stream-upload": "^2.0.1"
@@ -27,6 +30,16 @@
   "devDependencies": {
     "abstract-blob-store": "^3.3.2",
     "aws-sdk": "^2.0.15",
-    "tape": "^4.8.0"
+    "eslint": "^6.8.0",
+    "eslint-config-semistandard": "^15.0.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-node": "^11.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
+    "s3rver": "^3.5.0",
+    "tap-spec": "^5.0.0",
+    "tape": "^4.8.0",
+    "tmp": "^0.1.0"
   }
 }
