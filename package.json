@@ -1,6 +1,6 @@
 {
   "name": "s3-blob-store",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "s3 abstract-blob-store",
   "keywords": [
     "abstract-blob-store",
