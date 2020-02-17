@@ -18,6 +18,7 @@
     "index.js"
   ],
   "scripts": {
+    "docs": "documentation readme index.js --section=API",
     "lint": "eslint . --ext .js",
     "test": "node test.js | tap-spec"
   },
@@ -30,6 +31,7 @@
   "devDependencies": {
     "abstract-blob-store": "^3.3.2",
     "aws-sdk": "^2.0.15",
+    "documentation": "^12.1.4",
     "eslint": "^6.8.0",
     "eslint-config-semistandard": "^15.0.0",
     "eslint-config-standard": "^14.1.0",
