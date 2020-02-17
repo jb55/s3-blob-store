@@ -5,6 +5,13 @@ var debug = require('debug')('s3-blob-store');
 var mime = require('mime-types');
 var uploadStream = require('s3-stream-upload');
 
+/**
+ * Create S3 blob store
+ * @constructor
+ * @param {Object} opts
+ * @param {S3} opts.client S3 client
+ * @param {String} opts.bucket bucket name
+ */
 function S3BlobStore (opts) {
   if (!(this instanceof S3BlobStore)) return new S3BlobStore(opts);
   opts = opts || {};
@@ -16,6 +23,12 @@ function S3BlobStore (opts) {
   this.s3 = opts.client;
 }
 
+/**
+ * Create read stream
+ * @param {ReadStreamOptions|String} opts options or object key
+ * @returns {ReadableStream}
+ *   readable stream of data for the file in your bucket whose key matches
+ */
 S3BlobStore.prototype.createReadStream = function (opts) {
   if (typeof opts === 'string') opts = { key: opts };
   var config = { client: this.s3, params: this.downloadParams(opts) };
@@ -55,6 +68,12 @@ S3BlobStore.prototype.downloadParams = function (opts) {
   return params;
 };
 
+/**
+ * Create write stream
+ * @param {Options<WriteParams>|String} opts options or object key
+ * @param {function(Error, { key: String })} done callback
+ * @returns {WritableStream} writable stream that you can pipe data to
+ */
 S3BlobStore.prototype.createWriteStream = function (opts, s3opts, done) {
   if (typeof s3opts === 'function') {
     done = s3opts;
@@ -74,12 +93,22 @@ S3BlobStore.prototype.createWriteStream = function (opts, s3opts, done) {
   return out;
 };
 
+/**
+ * Remove object from store
+ * @param {{ key: String }|String} opts options containing object key or just key
+ * @param {function(Error)} done callback
+ */
 S3BlobStore.prototype.remove = function (opts, done) {
   var key = typeof opts === 'string' ? opts : opts.key;
   this.s3.deleteObject({ Bucket: this.bucket, Key: key }, done);
   return this;
 };
 
+/**
+ * Check if object exits
+ * @param {{ key: String }|String} opts options containing object key or just key
+ * @param {function(Error, Boolean)} done callback
+ */
 S3BlobStore.prototype.exists = function (opts, done) {
   if (typeof opts === 'string') opts = { key: opts };
   this.s3.headObject({ Bucket: this.bucket, Key: opts.key }, function (err, res) {
@@ -89,3 +118,43 @@ S3BlobStore.prototype.exists = function (opts, done) {
 };
 
 module.exports = S3BlobStore;
+
+/** @typedef {import('stream').Readable} ReadableStream */
+/** @typedef {import('stream').Writeable} WriteableStream */
+
+/**
+ * @typedef {Object} Options
+ * @property {String} key object key
+ * @property {String} [name] `key` alias
+ * @property {String} [filename] `key` alias
+ * @property {S3Params} [params] additional S3 options
+ * @template S3Params
+ */
+
+/**
+ * [`Options`](#options) including `s3-stream-download` configuration
+ * @typedef {Options<ReadParams> & S3StreamDownloaderOptions} ReadStreamOptions
+ * @name ReadStreamOptions
+ * @see https://github.com/jb55/s3-download-stream#api
+ */
+
+/**
+ * S3 client
+ * @typedef {import('aws-sdk').S3} S3
+ * @name S3
+ * @see https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html
+ */
+
+/**
+ * S3 `getObject` params
+ * @typedef {import('aws-sdk').S3.GetObjectRequest} ReadParams
+ * @name ReadParams
+ * @see https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#getObject-property
+ */
+
+/**
+ * S3 `putObject` params
+ * @typedef {import('aws-sdk').S3.PutObjectRequest} WriteParams
+ * @name WriteParams
+ * @see https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property
+ */
