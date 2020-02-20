@@ -61,12 +61,14 @@ store.exists({ key: 'somefile.txt' }, function (err, exists) {
         -   [Parameters](#parameters-3)
     -   [exists](#exists)
         -   [Parameters](#parameters-4)
--   [WriteParams](#writeparams)
--   [Options](#options)
-    -   [Properties](#properties)
+-   [ExistsParams](#existsparams)
 -   [ReadStreamOptions](#readstreamoptions)
 -   [S3](#s3)
 -   [ReadParams](#readparams)
+-   [WriteParams](#writeparams)
+-   [RemoveParams](#removeparams)
+-   [Options](#options)
+    -   [Properties](#properties)
 
 ### S3BlobStore
 
@@ -85,6 +87,7 @@ Create read stream
 ##### Parameters
 
 -   `opts` **([ReadStreamOptions](#readstreamoptions) \| [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options or object key
+-   `s3opts` **[ReadParams](#readparams)?** additional S3 options
 
 Returns **ReadableStream** readable stream of data for the file in your bucket whose key matches
 
@@ -95,7 +98,7 @@ Create write stream
 ##### Parameters
 
 -   `opts` **([Options](#options)&lt;[WriteParams](#writeparams)> | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options or object key
--   `s3opts`  
+-   `s3opts` **[WriteParams](#writeparams)?** additional S3 options
 -   `done` **function ([Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error), {key: [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)})** callback
 
 Returns **WritableStream** writable stream that you can pipe data to
@@ -106,7 +109,8 @@ Remove object from store
 
 ##### Parameters
 
--   `opts` **({key: [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)} | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options containing object key or just key
+-   `opts` **([Options](#options)&lt;[RemoveParams](#removeparams)> | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options or object key
+-   `s3opts` **[RemoveParams](#removeparams)?** additional S3 options
 -   `done` **function ([Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error))** callback
 
 #### exists
@@ -115,27 +119,19 @@ Check if object exits
 
 ##### Parameters
 
--   `opts` **({key: [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)} | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options containing object key or just key
+-   `opts` **([Options](#options)&lt;[ExistsParams](#existsparams)> | [String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String))** options or object key
+-   `s3opts` **[ExistsParams](#existsparams)?** additional S3 options
 -   `done` **function ([Error](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Error), [Boolean](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Boolean))** callback
 
 ### 
 
-### WriteParams
+### 
 
--   **See: <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property>**
+### ExistsParams
 
-S3 `putObject` params
+-   **See: <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#headObject-property>**
 
-### Options
-
-Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
-
-#### Properties
-
--   `key` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** object key
--   `name` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** `key` alias
--   `filename` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** `key` alias
--   `params` **S3Params?** additional S3 options
+S3 `headObject` params
 
 ### ReadStreamOptions
 
@@ -155,4 +151,25 @@ S3 client
 
 S3 `getObject` params
 
-### 
+### WriteParams
+
+-   **See: <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#putObject-property>**
+
+S3 `putObject` params
+
+### RemoveParams
+
+-   **See: <https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/S3.html#deleteObject-property>**
+
+S3 `deleteObject` params
+
+### Options
+
+Type: [Object](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object)
+
+#### Properties
+
+-   `key` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)** object key
+-   `name` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** `key` alias
+-   `filename` **[String](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String)?** `key` alias
+-   `params` **S3Params?** additional S3 options
