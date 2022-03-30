@@ -41,31 +41,34 @@ S3BlobStore.prototype.createReadStream = function (opts) {
   return stream;
 };
 
-S3BlobStore.prototype.uploadParams = function (opts) {
+S3BlobStore.prototype.baseParams = function (opts) {
   opts = Object.assign({}, opts, {
     params: Object.assign({}, opts.params)
   });
 
-  var filename = opts.name || opts.filename;
-  var key = opts.key || filename;
-  var contentType = opts.contentType;
+  const filename = opts.name || opts.filename;
+  const key = opts.key || filename;
+  let params = opts.params;
 
-  var params = opts.params;
   params.Bucket = params.Bucket || this.bucket;
   params.Key = params.Key || key;
 
-  if (!contentType) {
-    contentType = filename ? mime.lookup(filename) : mime.lookup(opts.key);
-  }
-  if (contentType) params.ContentType = contentType;
+  return params
+}
+
+S3BlobStore.prototype.uploadParams = function (opts) {
+  const params = this.baseParams(opts)
+  const filename = opts.name || opts.filename || params.Key;
+  let contentType = opts.contentType || mime.lookup(filename)
+
+  if (contentType)
+    params.ContentType = contentType
 
   return params;
 };
 
 S3BlobStore.prototype.downloadParams = function (opts) {
-  var params = this.uploadParams(opts);
-  delete params.ContentType;
-  return params;
+  return this.baseParams(opts);
 };
 
 /**
@@ -99,8 +102,8 @@ S3BlobStore.prototype.createWriteStream = function (opts, s3opts, done) {
  * @param {function(Error)} done callback
  */
 S3BlobStore.prototype.remove = function (opts, done) {
-  var key = typeof opts === 'string' ? opts : opts.key;
-  this.s3.deleteObject({ Bucket: this.bucket, Key: key }, done);
+  const params = this.baseParams(opts)
+  this.s3.deleteObject(params, done);
   return this;
 };
 
