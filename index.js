@@ -99,8 +99,17 @@ S3BlobStore.prototype.createWriteStream = function (opts, s3opts, done) {
  * @param {function(Error)} done callback
  */
 S3BlobStore.prototype.remove = function (opts, done) {
-  var key = typeof opts === 'string' ? opts : opts.key;
-  this.s3.deleteObject({ Bucket: this.bucket, Key: key }, done);
+  var params = {}
+  if (typeof opts === 'string') {
+    params.Key = opts;
+  } else {
+    opts = Object.assign({}, opts, {
+      params: Object.assign({}, opts.params)
+    });
+    params.Key = opts.key;
+    params.Bucket = opts.params.Bucket || this.bucket;
+  }
+  this.s3.deleteObject(params, done);
   return this;
 };
 
